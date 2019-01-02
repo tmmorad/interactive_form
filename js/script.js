@@ -11,6 +11,21 @@ const designsColors = document.querySelectorAll("#color option");
 const shirtColor = document.getElementById('color');
 const jsPuns = ['cornflowerblue', 'darkslategrey', 'gold'];
 const heartJS = ['tomato', 'steelblue', 'dimgrey'];
+const activities = document.querySelector('fieldset.activities');
+const eventPrices = [
+  {name: 'all', price: 200, time: 'all'},
+  {name: 'js-frameworks', price: 100, time: 'tu9a'},
+  {name: 'js-libs', price: 100, time: 'tu1p'},
+  {name: 'express', price: 100, time: 'tu9a'},
+  {name: 'node', price: 100, time: 'tu1p'},
+  {name: 'build-tools', price: 100, time: 'w9a'},
+  {name: 'npm', price: 100, time: 'w1p'}
+ ];
+
+let cost= 0;
+let totalCost = document.createElement('p');
+activities.appendChild(totalCost);
+activities.lastChild.setAttribute('id', 'sum');
 
 
 function setFocus(tag){
@@ -51,7 +66,7 @@ function colorOptions (what, display) {
 }// End colorOptions
 
 designTheme.addEventListener('change', () =>{
-  console.log('triggered');
+  console.log('triggered design select');//REMOVE just for testing
 
   if (designTheme.value === "js puns") {
     colorOptions.call(this, heartJS, 'none');
@@ -64,9 +79,53 @@ designTheme.addEventListener('change', () =>{
   } else {
     colorOptions.call(this, jsPuns, 'none');
     colorOptions.call(this, heartJS, 'none');
+    shirtColor.value = 'default';
   }
 });
 
-// If the user selects "Theme - JS Puns" then the color menu should only display "Cornflower Blue," "Dark Slate Grey," and "Gold."
-// If the user selects "Theme - I ♥ JS" then the color menu should only display "Tomato," "Steel Blue," and "Dim Grey."
-// When a new theme is selected from the "Design" menu, the "Color" field and drop down menu is updated.
+ //Parse all checkboxs
+function boxs (){
+  cost = 0;
+  for (var reset in eventPrices) {
+    let x = document.querySelector('[name='+eventPrices[reset]['name']+']');
+    x.removeAttribute('disabled'),
+    x.parentNode.removeAttribute('class');
+  }
+  for (var checkbox in eventPrices) {
+    let x = document.querySelector('[name='+eventPrices[checkbox]['name']+']');
+    if (x.checked) {
+      let compare = eventPrices[checkbox]['time'];
+      cost+= parseInt(eventPrices[checkbox]['price']);
+      for (var times in eventPrices) {
+        let other = eventPrices[times]['time'];
+        let y = document.querySelector('[name='+eventPrices[times]['name']+']');
+        console.log(cost);//For testing
+        if (y.checked === false) {
+          if (compare === other) {
+            y.setAttribute('disabled', '');
+            y.parentNode.setAttribute('class', 'disabled');
+          }
+        }
+      }
+    }
+  }
+  let newTotal = document.getElementById('sum');
+  let theSum = document.createTextNode(`Total $ ${cost}`);
+  newTotal.appendChild(theSum);
+  let message = `Total $ ${cost}`;
+  newTotal.innerHTML = message;
+}//End Function Boxs
+
+ activities.addEventListener('change', () => {
+   console.log('checkbox change');//Remove just for Testing
+   boxs();
+ });
+
+
+ // <label><input type="checkbox" name="all"> Main Conference — $200</label>
+ // <label><input type="checkbox" name="js-frameworks"> JavaScript Frameworks Workshop — Tuesday 9am-12pm, $100</label>
+ // <label><input type="checkbox" name="js-libs"> JavaScript Libraries Workshop — Tuesday 1pm-4pm, $100</label>
+ // <label><input type="checkbox" name="express"> Express Workshop — Tuesday 9am-12pm, $100</label>
+ // <label><input type="checkbox" name="node"> Node.js Workshop — Tuesday 1pm-4pm, $100</label>
+ // <label><input type="checkbox" name="build-tools"> Build tools Workshop — Wednesday 9am-12pm, $100</label>
+ // <label><input type="checkbox" name="npm"> npm Workshop — Wednesday 1pm-4pm, $100</label>
