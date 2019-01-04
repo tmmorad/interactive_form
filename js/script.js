@@ -121,11 +121,35 @@ function boxs (){
    boxs();
  });
 
+//Removes the default select method option from Payment
+const payment = document.getElementById('payment');
+const removeSelect = payment.firstElementChild;
+removeSelect.parentNode.removeChild(removeSelect);
+const defaultPayment = document.querySelector('[value="credit card"]').setAttribute('selected', '');
+const creditCard = document.getElementById('credit-card');
 
- // <label><input type="checkbox" name="all"> Main Conference — $200</label>
- // <label><input type="checkbox" name="js-frameworks"> JavaScript Frameworks Workshop — Tuesday 9am-12pm, $100</label>
- // <label><input type="checkbox" name="js-libs"> JavaScript Libraries Workshop — Tuesday 1pm-4pm, $100</label>
- // <label><input type="checkbox" name="express"> Express Workshop — Tuesday 9am-12pm, $100</label>
- // <label><input type="checkbox" name="node"> Node.js Workshop — Tuesday 1pm-4pm, $100</label>
- // <label><input type="checkbox" name="build-tools"> Build tools Workshop — Wednesday 9am-12pm, $100</label>
- // <label><input type="checkbox" name="npm"> npm Workshop — Wednesday 1pm-4pm, $100</label>
+
+const payFieldset = document.getElementById('payment').parentNode.querySelectorAll('fieldset>div');
+console.log(payFieldset);
+
+function hideOptions (option, what) {
+  for (var i = 0; i < what.length; i++) {
+    if (i === option) {
+      what[i].style.display='block';
+    } else {
+      what[i].style.display='none';
+    }
+  }
+}// End hideOptions
+hideOptions(0, payFieldset);
+
+payment.addEventListener('change', () =>{
+  console.log('triggered payment select');//REMOVE just for testing
+  if (payment.value ==="credit card") {
+    hideOptions(0, payFieldset);
+  } else if (payment.value ==="paypal"){
+    hideOptions(1, payFieldset);
+  } else {
+    hideOptions(2, payFieldset);
+  }
+});
