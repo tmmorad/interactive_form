@@ -118,6 +118,18 @@ button:hover {
 	background: #184c62;
 }
 
+.error {
+  border-color: red;
+  color: red;
+}
+
+.line {
+  display: inline;
+  color: red;
+  font-size: small;
+}
+
+
 /* =================================
   Page Styles
 ==================================== */
