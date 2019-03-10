@@ -49,12 +49,16 @@ function setFocus(tag){
 
 setFocus("name");
 
+/******************************************
+Other-Title using Jquery
+******************************************/
+$('#other-title').hide();
 jobRole.addEventListener('change', () =>{
   if(jobRole.value === "other"){
-    otherTitle.removeAttribute('hidden');
+    $('#other-title').show();
     setFocus("other-title");
   } else {
-    otherTitle.setAttribute('hidden','');
+    $('#other-title').hide();
   }
 });//End jobRole Event
 
@@ -157,12 +161,12 @@ boxes(); //Initial Call to prompt Error No Activities selected
 //EventListener for when checkboxes changes
  activities.addEventListener('change', () => {
    boxes();
+   console.log("Checkboxes Changed");//for tracking
  });
 
 /******************************************
  Payment Options Section
 ******************************************/
-
 //Removes the default select method option from Payment
 const payment = document.getElementById('payment');
 const removeSelect = payment.firstElementChild;
@@ -172,6 +176,7 @@ document.querySelector('[value="credit card"]').setAttribute('selected', '');
 const creditCard = document.getElementById('credit-card');
 const payFieldset = document.getElementById('payment').parentNode.querySelectorAll('fieldset>div');
 
+//used to hide payment options not selected
 function hideOptions (option, what) {
   for (var i = 0; i < what.length; i++) {
     if (i === option) {
@@ -201,6 +206,7 @@ payment.addEventListener('change', () =>{
 ******************************************/
 let message = "Please correct the Following Field";
 
+//fn. is used to create error messages for the user to correct the appropriate field
 function setError(id, message){
   id.setAttribute('class', 'error');
   let x = document.querySelector("[for= \'"+id.id+"\']");
@@ -208,10 +214,12 @@ function setError(id, message){
   x.innerHTML+= theSpan;
 }
 
+//validates email is correct format
 function validEmail(check){
   return /^\w+@\w+(\.(\w)+)$/i.test(check.value);
 }
 
+//validates the credit card number inputs
 function validate(num, bottom, top, message){
   let id = document.getElementById(num);
   let testnum = id.value;
@@ -226,10 +234,6 @@ function validate(num, bottom, top, message){
   }
 }
 
-activities.addEventListener('change', ()=>{
-  console.log("Checkboxes Changed");
-});
-
 submitButton.addEventListener('click', (e)=>{
  console.log(flags);//for testing and tracking
   //for loop Resets all the error and line class
@@ -239,7 +243,7 @@ submitButton.addEventListener('click', (e)=>{
     if (document.querySelector('[class="error"]')) {
       document.getElementById(document.querySelector('[class="error"]').id).removeAttribute("class");
     }
-    byeItem.remove();//Removes the span conatining the error message
+    byeItem.remove();//Removes the span containing the error message
   }
 
   flags = 0;
@@ -258,7 +262,6 @@ submitButton.addEventListener('click', (e)=>{
   //Events the checkboxes
   if (activities.querySelectorAll('input:checked').length==0) {
     boxes();
-
   }
   //Payment form
   if (payment.value ==="credit card") {
@@ -276,7 +279,7 @@ submitButton.addEventListener('click', (e)=>{
   if (flags>0) {
     e.preventDefault();
     console.log("THE NUMBER OF ERRORS: "+flags);
-    alert('Sorry Can\'t Submit your entry at this time; Please correct the following form fields highlighted in red.');
+    alert('Sorry Can\'t Submit your entry at this time; Please correct the following form fields highlighted in red then, hit Submit again.');
     // Set pagefocus to the first element that has the error class, the red boarder will be hidden due to the focus
     setFocus(document.querySelector('.error').id);
   } else if (flags===0) {
