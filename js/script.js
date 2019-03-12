@@ -88,19 +88,21 @@ function colorOptions (what, display) {
   }
 }// End colorOptions
 
+$('#colors-js-puns').hide();//intially hides the color selection section until a theme is choosen
+
 designTheme.addEventListener('change', () =>{
   if (designTheme.value === "js puns") {
+    $('#colors-js-puns').show();
     colorOptions.call(this, heartJS, 'none');
     colorOptions.call(this, jsPuns, 'block');
     shirtColor.value = 'default';
   } else if (designTheme.value === "heart js") {
+    $('#colors-js-puns').show();
     colorOptions.call(this, jsPuns, 'none');
     colorOptions.call(this, heartJS, 'block');
     shirtColor.value = 'default';
   } else {
-    colorOptions.call(this, jsPuns, 'none');
-    colorOptions.call(this, heartJS, 'none');
-    shirtColor.value = 'default';
+    $('#colors-js-puns').hide();
   }
 });
 
